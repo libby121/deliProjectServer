@@ -18,9 +18,9 @@ import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 public class Book extends Product {
 
 	public Book(String title, double price, Category category,
-			int amount, String author, int year, String language) {
+			int amount, String description, String author, int year, String language) {
 		
-		super(title, price, category, amount);
+		super(title, price, category, amount,description);
 		 
 		this.author = author;
 		this.year = year;
@@ -28,7 +28,19 @@ public class Book extends Product {
 	}
 
 	 
- 	 
+ 	  
+
+
+
+
+
+	public Book(String title, double price, Category category, int amount) {
+		super(title, price, category, amount);
+		// TODO Auto-generated constructor stub
+	}
+
+
+
 
 	private String author;
 	private int year;

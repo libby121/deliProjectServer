@@ -16,9 +16,19 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="customers")
 public class Customer {
+
+	public Customer(String firstName, String lastName, String password, String email) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.password = password;
+		this.email = email;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,8 +47,9 @@ public class Customer {
 	@OneToMany(mappedBy="customer")//the column from CustomersPurchases
 	private Set<CustomerPurchase>purchases=new HashSet<CustomerPurchase>() ;
 	
-	
-	@OneToOne
+	 
+	@JsonIgnore
+	@OneToOne(  fetch = FetchType.EAGER)
 	private ShoppingCart cart;
 
 	public ShoppingCart getCart() {

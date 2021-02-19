@@ -324,7 +324,10 @@ public class AdminController {
 	
 	
 	
-	
+	@GetMapping("allFoods")
+	public List<Food>getfoods(){
+		return adminFac.getAllFoods();
+	}
 	
 	
 	

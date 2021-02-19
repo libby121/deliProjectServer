@@ -19,9 +19,10 @@ public class Flower extends Product {
 		
 	}
 
-	public Flower(String title, double price, Category category, int amount,bouquetSize size,
+	public Flower(String title, double price, Category category, int amount,
+			String description,bouquetSize size,
 			bouquetColor color, bouquetType type) {
-		super(title, price, category, amount);
+		super(title, price, category, amount,description);
 		this.size = size;
 		this.color = color;
 		this.type = type;	}

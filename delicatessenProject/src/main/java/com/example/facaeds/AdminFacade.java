@@ -179,6 +179,10 @@ public class AdminFacade extends Facade {
 		if(validProduct(f))foodRepo.save(f);
 	}
 	
+	
+	public List<Food>getAllFoods(){
+		return foodRepo.findAll();
+	}
 
 	public void updateProduct(Product p)//how can this be used ?
 			throws productDuplicationException, expirationDateException, IllegalProductPriceException, categoryCannotBeChangedException, noSuchProductException {

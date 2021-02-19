@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.beans.Category;
 import com.example.beans.Product;
+import com.example.beans.ProductShoppingCart;
 import com.example.db.AdministratorRepository;
 import com.example.db.BookRepo;
 import com.example.db.CustomerRepository;
 import com.example.db.FlowerRepository;
 import com.example.db.FoodRepository;
+import com.example.db.ItemsCartRepo;
 import com.example.db.MovieRepository;
 import com.example.db.ProductRepository;
 import com.example.db.ShoppingCartRepository;
@@ -27,6 +29,9 @@ public abstract class Facade {
 	protected ProductRepository productRepo;
 	@Autowired
 	protected ShoppingCartRepository cartRepo;
+	@Autowired
+	protected ItemsCartRepo ItemscartRepo;
+	
 	@Autowired
 	protected BookRepo bookRepo;
 	@Autowired

@@ -28,6 +28,7 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Parent;
 import org.springframework.expression.BeanResolver;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
@@ -50,12 +51,12 @@ import com.fasterxml.jackson.databind.jsontype.TypeIdResolver;
 //@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@class"
 //
 //)
- 
+
 //, @JsonSubTypes.Type(value = Flower.class),
 //		@JsonSubTypes.Type(value = Food.class), @JsonSubTypes.Type(value = Movie.class), })
 @Entity
 @Table(name = "products")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)//??? 
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) // ???
 //i cannot add a "product" since its an abstract class.
 //but i can delete, and do all the fetching from the different tables by the automatic join 
 
@@ -68,29 +69,27 @@ public abstract class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
- 	@Column(name = "product_id")
+	 
 	protected long id;
-	 
-	protected String title;
-	 
-	protected double price;
-	//when i do not add transient i get sql exception..
-	//@Transient//javax=> ignores the field in sql.
-	//it does appear in the super table though, but cannot be fetched....
-	@Column(insertable = true, updatable = true )
-	 @Enumerated(EnumType.STRING)
-	 
-	protected Category category;
-	 
-	protected String description;
-	 
-	protected int amount;
-	 
-	protected String image;
- 
 
-	
-	
+	protected String title;
+
+	protected double price;
+	// when i do not add transient i get sql exception..
+	// @Transient//javax=> ignores the field in sql.
+	// it does appear in the super table though, but cannot be fetched....
+	@Column(insertable = true, updatable = true)
+	@Enumerated(EnumType.STRING)
+
+	protected Category category;
+
+	protected String description;
+
+	protected int amount;
+
+	protected String image;
+
+ 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -99,8 +98,6 @@ public abstract class Product {
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -121,18 +118,10 @@ public abstract class Product {
 		return true;
 	}
 
-
-
 	public Product() {
-		 
-	 
-		 
+
 	}
-
-
  
-
-
 	@OneToMany(mappedBy = "product") // the corresponding column name from CustomersPurchases
 	private Set<CustomerPurchase> purchases;
 
@@ -145,7 +134,8 @@ public abstract class Product {
 //		return customers;
 //	}
 
-	@OneToMany(mappedBy = "item", fetch = FetchType.EAGER)
+	@JsonIgnore//other wise i get fater.xml.jackson..databind
+	@OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
 	private List<ProductShoppingCart> productCarts;
 
 	public Product(String title, double price, Category category, int amount) {
@@ -156,8 +146,6 @@ public abstract class Product {
 		this.amount = amount;
 
 	}
-	
-	
 
 //	public Product(String title, double price, Category category, String description, int amount, String image) {
 //		super();
@@ -172,6 +160,15 @@ public abstract class Product {
 	public Set<CustomerPurchase> getPurchases() {
 
 		return purchases;
+	}
+
+	public Product(String title, double price, Category category, int amount, String description) {
+		super();
+		this.title = title;
+		this.price = price;
+		this.category = category;
+		this.description = description;
+		this.amount = amount;
 	}
 
 	public void setPurchases(Set<CustomerPurchase> purchases) {
@@ -250,7 +247,6 @@ public abstract class Product {
 		}
 		return custs;
 	}
-	
 
 	@Override
 	public String toString() {

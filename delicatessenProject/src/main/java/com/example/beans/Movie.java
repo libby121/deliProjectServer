@@ -23,8 +23,9 @@ public class Movie extends Product {
 	
 
 	public Movie(String title, double price, Category category, int amount,
+			String description,
 			String director,movieGenre genre, int year,String language) {
-		super(title, price, category, amount);
+		super(title, price, category, amount, description);
 		this.director=director;
 		this.genre=genre;
 		this.year=year;

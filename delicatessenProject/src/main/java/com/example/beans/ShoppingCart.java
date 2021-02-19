@@ -1,5 +1,6 @@
 package com.example.beans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="carts_customers")
 public class ShoppingCart {
@@ -22,18 +25,20 @@ public class ShoppingCart {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="cart_id")
 	private long id;
-	@OneToOne(mappedBy="cart")
-	private Customer customer;
+	
+ 
+    @OneToOne  
+	private Customer CartCustomer;
 	/**
 	 * each customer cart is attached to a productShoppingCart object,
 	 * instead of being attached to a list of products.
 	 * because each product can be bought several times
 	 */
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="cart")
+ 	@OneToMany(fetch=FetchType.EAGER, mappedBy="cart")
 	private List<ProductShoppingCart>productsInCart;
 
 	public ShoppingCart(Customer c) {
-		this.customer=c;
+		this.CartCustomer=c;
 	}
 	
 	public ShoppingCart() {
@@ -41,15 +46,14 @@ public class ShoppingCart {
 	}
 
 	public Customer getCustomer() {
-		return customer;
+		return CartCustomer;
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
+	 
 
 	public List<ProductShoppingCart> getProductsOfCart() {
-		return productsInCart;
+		
+		return productsInCart!=null?productsInCart:new ArrayList<ProductShoppingCart>();
 	}
 
 	public void setProductCarts(List<ProductShoppingCart> productCarts) {
@@ -58,6 +62,11 @@ public class ShoppingCart {
 
 	public long getId() {
 		return id;
+	}
+
+	@Override
+	public String toString() {
+		return "ShoppingCart [id=" + id + ", CartCustomer=" + CartCustomer + ", productsInCart=" + productsInCart + "]";
 	}
 	
 	

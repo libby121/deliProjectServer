@@ -44,15 +44,19 @@ public class CustomerPurchase {
 	 *   mappedBy indicates that the entity in this side is the inverse of the relationship,
 	 *   and the owner resides in the "other" entity.
 	 */
-	@JoinColumn(name="customer_identity")//Necessary?
+	@JoinColumn(name="customer_id")//Necessary?
 	private Customer customer;
 	
 	@ManyToOne
 	private Product product;
 
+	private int quantity;
 	
 	
-	
+	public int getQuantity() {
+		return quantity;
+	}
+
 	public CustomerPurchase(Customer customer, Product product) {
 		super();
 		this.customer = customer;
